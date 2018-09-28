@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,8 @@ import java.util.List;
 
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    List<Sensor> sensor_list;
+    private Context context;
+    private List<Sensor> sensor_list;
 
     public MyAdapter(Context context, List<Sensor> sensor_list) {
         this.context = context;
@@ -53,7 +54,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public void onClick(View v) {
             String curr_sensor = item_text.getText().toString();
-            Toast.makeText(context, curr_sensor, Toast.LENGTH_SHORT).show();
             Intent i = new Intent(context, Sensor_Detail.class);
             i.putExtra("SENSOR_NAME", curr_sensor);
             context.startActivity(i);

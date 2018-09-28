@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor_list = mySensorManager.getSensorList(Sensor.TYPE_ALL);
-
 
         recyclerView.setAdapter(new MyAdapter(this, sensor_list));
     }

@@ -18,6 +18,9 @@ public class Sensor_Detail extends Activity implements View.OnClickListener, Sen
     TextView name;
     TextView curr_val;
     TextView max_range;
+    TextView reso;
+    TextView power;
+
     Intent received;
     String sensor_name;
     float sensor_val;
@@ -31,11 +34,13 @@ public class Sensor_Detail extends Activity implements View.OnClickListener, Sen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sensor_activity);
 
-        name = findViewById(R.id.textView);
+        name = findViewById(R.id.sensor_info_name);
         name.setOnClickListener(this);
 
-        curr_val = findViewById(R.id.textView4);
-        max_range = findViewById(R.id.textView6);
+        curr_val = findViewById(R.id.sensor_info_val);
+        max_range = findViewById(R.id.sensor_info_max);
+        reso = findViewById(R.id.sensor_info_resolution);
+        power = findViewById(R.id.sensor_info_power);
 
 
         received = getIntent();
@@ -48,13 +53,14 @@ public class Sensor_Detail extends Activity implements View.OnClickListener, Sen
 
         for(int i = 0; i < all_sensors.size(); i++){
             if(all_sensors.get(i).getName().equals(sensor_name)){
-//                Log.d("DEBUG555", "" + all_sensors.get(i).getName());
                 curr_sensor = all_sensors.get(i);
             }
         }
 
         name.setText(curr_sensor.getName());
         max_range.setText("" + curr_sensor.getMaximumRange());
+        reso.setText("" + curr_sensor.getResolution());
+        power.setText("" + curr_sensor.getPower());
 
 
 

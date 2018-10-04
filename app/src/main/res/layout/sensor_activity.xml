@@ -12,10 +12,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22000003">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textView2"
@@ -66,11 +66,11 @@
             android:textColor="#000000" />
 
         <TextView
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:text="Resolution:"
-        android:textAppearance="@android:style/TextAppearance.Large" />
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Resolution:"
+            android:textAppearance="@android:style/TextAppearance.Large" />
 
         <TextView
             android:id="@+id/sensor_info_resolution"

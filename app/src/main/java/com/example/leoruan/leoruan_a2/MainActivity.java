@@ -1,5 +1,6 @@
 package com.example.leoruan.leoruan_a2;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -78,23 +80,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             double x = event.values.clone()[0];
             double y = event.values.clone()[1];
             double z = event.values.clone()[2];
-            float norm_Of_g =(float) Math.sqrt(x * x + y * y + z * z);
+            Vibrator v = (Vibrator) getSystemService(this.VIBRATOR_SERVICE);
+            float normalizer =(float) Math.sqrt(x * x + y * y + z * z);
 
-            // Normalize the accelerometer vector
-            x = (x / norm_Of_g);
-            y = (y / norm_Of_g);
-            z = (z / norm_Of_g);
-            int inclination = (int) Math.round(Math.toDegrees(Math.acos(z)));
-            Log.d("DEBUG555", ""+inclination);
+            x = (x / normalizer);
+            y = (y / normalizer);
+            z = (z / normalizer);
+            int device_incline = (int) Math.round(Math.toDegrees(Math.acos(z)));
 
-            if (inclination < 10 || inclination > 175)
+            if (device_incline < 10 || device_incline > 175)
             {
                 if(!vibrated) {
-                    Vibrator v = (Vibrator) getSystemService(this.VIBRATOR_SERVICE);
-                    v.vibrate(500);
-                    vibrated = true;
+                    Toast.makeText(this, "device flat - beep", Toast.LENGTH_LONG).show();
+                    try {
+                        v.vibrate(5000);
+                        vibrated = true;
+                    } catch (Exception e) {
+                        Toast.makeText(this, "There is no vibration option for your phone.", Toast.LENGTH_LONG).show();
+                    }
                 }
             } else {
+                v.cancel();
                 vibrated = false;
             }
         }
@@ -116,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause() {
         super.onPause();
         mySensorManager.unregisterListener(this);
+    }
+
+    public void status_start(View view) {
+
     }
 
 }

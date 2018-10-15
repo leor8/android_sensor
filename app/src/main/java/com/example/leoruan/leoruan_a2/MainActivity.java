@@ -134,11 +134,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             } else {
                 moving = false;
             }
-            if(moving) {
-                status_text.setText("Moving");
-            } else {
-                status_text.setText("Stationary");
-            }
         }
     }
 

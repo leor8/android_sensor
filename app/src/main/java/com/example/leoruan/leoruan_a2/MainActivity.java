@@ -17,8 +17,10 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -38,6 +40,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Boolean played = false;
     Boolean vibrated = false;
 
+    Boolean moving = false;
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
+
+    private TextView status_text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +62,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         accSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         recyclerView.setAdapter(new MyAdapter(this, sensor_list));
+
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+
+        status_text = findViewById(R.id.status);
     }
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
         int type = event.sensor.getType();
         if(type == Sensor.TYPE_LIGHT) {
             float sensor_val = event.values[0];
@@ -76,21 +93,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }
 
-        if(type == Sensor.TYPE_ACCELEROMETER){
+        if(type == Sensor.TYPE_ACCELEROMETER) {
             double x = event.values.clone()[0];
             double y = event.values.clone()[1];
             double z = event.values.clone()[2];
+
+            double x_stat = event.values.clone()[0];
+            double y_stat = event.values.clone()[1];
+            double z_stat = event.values.clone()[2];
+
+            // For vibration
             Vibrator v = (Vibrator) getSystemService(this.VIBRATOR_SERVICE);
-            float normalizer =(float) Math.sqrt(x * x + y * y + z * z);
+            float normalizer = (float) Math.sqrt(x * x + y * y + z * z);
 
             x = (x / normalizer);
             y = (y / normalizer);
             z = (z / normalizer);
             int device_incline = (int) Math.round(Math.toDegrees(Math.acos(z)));
 
-            if (device_incline < 10 || device_incline > 175)
-            {
-                if(!vibrated) {
+            if (device_incline < 10 || device_incline > 175) {
+                if (!vibrated) {
                     Toast.makeText(this, "device flat - beep", Toast.LENGTH_LONG).show();
                     try {
                         v.vibrate(5000);
@@ -102,6 +124,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             } else {
                 v.cancel();
                 vibrated = false;
+            }
+
+            // For phone status
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float)Math.sqrt(x_stat * x_stat + y_stat * y_stat + z_stat * z_stat);
+            if(mAccelLast != mAccelCurrent) {
+                moving = true;
+            } else {
+                moving = false;
+            }
+            if(moving) {
+                status_text.setText("Moving");
+            } else {
+                status_text.setText("Stationary");
             }
         }
     }
@@ -125,7 +161,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void status_start(View view) {
-
+        if(moving) {
+            status_text.setText("Moving");
+        } else {
+            status_text.setText("Stationary");
+        }
     }
 
 }

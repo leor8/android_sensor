@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/status"
         android:layout_width="240dp"
         android:layout_height="37dp"
         android:layout_marginBottom="15dp"
@@ -51,6 +51,8 @@
         android:layout_marginRight="26dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button2"
